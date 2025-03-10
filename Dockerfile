@@ -33,14 +33,11 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt /app/
 
 # 安装 Python 依赖
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-RUN python -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-
 RUN pip install --upgrade pip
-RUN pip install --no-cache-dir  -r requirements.txt
+RUN pip install virtualenv
+RUN virtualenv /app/venv
+ENV PATH="/app/venv/bin:$PATH"
+RUN pip install -r requirements.txt
 
 # 阶段三: 运行阶段
 FROM python:3.10-slim
@@ -54,11 +51,9 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # 从构建阶段复制Python依赖
-#COPY --from=backend-builder /root/.local /root/.local
-COPY --from=backend-builder /opt/venv /opt/venv
+COPY --from=backend-builder /app/venv /app/venv
 # 确保脚本路径在PATH中
-#ENV PATH=/root/.local/bin:$PATH
-ENV PATH="/opt/venv/bin:$PATH"
+ENV PATH="/app/venv/bin:$PATH"
 # 设置环境变量
 ENV PYTHONPATH=/app
 
