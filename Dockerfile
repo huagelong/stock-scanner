@@ -40,7 +40,7 @@ RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 RUN pip install --upgrade pip
-RUN pip install --root-user-action=ignore --no-cache-dir --user -r requirements.txt
+RUN pip install --no-cache-dir  -r requirements.txt
 
 # 阶段三: 运行阶段
 FROM python:3.10-slim
