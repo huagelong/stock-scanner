@@ -34,7 +34,7 @@ COPY requirements.txt /app/
 
 # 安装 Python 依赖
 RUN pip install --upgrade pip
-RUN pip install virtualenv
+RUN pip install --root-user-action=ignore virtualenv
 RUN virtualenv /app/venv
 ENV PATH="/app/venv/bin:$PATH"
 RUN pip install -r requirements.txt
