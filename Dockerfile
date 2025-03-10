@@ -33,7 +33,7 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt /app/
 
 # 安装 Python 依赖
-RUN pip install --no-cache-dir --user -r requirements.txt
+RUN pip install -q --no-cache-dir --user -r requirements.txt
 
 # 阶段三: 运行阶段
 FROM python:3.10-slim
